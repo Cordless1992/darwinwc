@@ -7,3 +7,6 @@ Quick Start -
 On Windows download .zip, extract and then just click run.bat.
 
 Current Status - Ongoing (Status: A)
+
+1. Only show 1 UID per message
+2. Only show location where train is set to delayed

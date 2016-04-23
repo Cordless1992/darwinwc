@@ -39,7 +39,7 @@ class MyListener(object):
         try:
             for node3 in dom.getElementsByTagName('ns3:arr'):
                 d = node3.attributes["delayed"]
-                print y.value, o.value, x.value, d.value
+                print "UID: ", y.value, " TIPLOC: ", o.value, " Source: ", x.value, " Status: Delayed"
         except KeyError:
                 pass
                 #print XML
