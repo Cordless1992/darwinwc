@@ -44,9 +44,8 @@ class MyListener(object):
                 a = y.value
                 b = o.value
                 c = x.value
-                
+        
                 print "UID: ", a, " TIPLOC: ", b, " Source: ", c, " Status: Delayed"
-
                 #Open DB connection (change as required)
                 db = MySQLdb.connect("sql8.freesqldatabase.com","sql8116670","u47HNmCYr8","sql8116670")
                 cursor = db.cursor()
@@ -62,12 +61,13 @@ class MyListener(object):
                     #print "Passed Execute"
                     db.commit()
                     #countera = countera  + 1
-                    print countera
-                    #print "Written to Database"
+                    #print countera
+                    print "Written to Database"
+                    repeatUID = a
                 except Exception,e:
                     print e
                     db.rollback()
-                    #print "Failed to Write to Database"
+                    print "Failed to Write to Database"
                 db.close()
 
         #skip if nothing found in ns3:arrived/delayed attribute        
