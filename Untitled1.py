@@ -1,9 +1,11 @@
-import zlib, stomp#, xmltodict
+import zlib, stomp #, xmltodict
+import MySQLdb
 #from bs4 import BeautifulSoup
 #import lxml
 #import xml.etree.ElementTree
 #from xml.etree import ElementTree
 #from collections import OrderedDict
+#Naming needs to be changed for this file it is currently Untitled.py
 import xml.dom.minidom
 from xml.dom.minidom import parse, parseString
 
@@ -22,7 +24,7 @@ class MyListener(object):
         f.close()
         dom = parse("test.xml")
         
-#Example <uR updateOrigin="Darwin"><TS rid="201604221223687" ssd="2016-04-22" uid="W05044">
+        #Example <uR updateOrigin="Darwin"><TS rid="201604221223687" ssd="2016-04-22" uid="W05044">
         
         for node1 in dom.getElementsByTagName('uR'):
             x = node1.attributes["updateOrigin"]      #Information Source
@@ -40,6 +42,23 @@ class MyListener(object):
             for node3 in dom.getElementsByTagName('ns3:arr'):
                 d = node3.attributes["delayed"]
                 print "UID: ", y.value, " TIPLOC: ", o.value, " Source: ", x.value, " Status: Delayed"
+
+                #Open DB connection (change as required)
+                db = MySQLdb.connect("localhost","username","password","DBName")
+                cursor = db.cursor()
+
+                #Prepare information to be insered
+                sql = "INSERT INTO TABLENAME(UID, TPL, SOU)"
+
+                #Commit changes to database
+                try:
+                    cursor.execute(sql)
+                    db.commit()
+                except:
+                    db.rollback()
+                db.close()
+
+        #skip if nothing found in ns3:arrived/delayed attribute        
         except KeyError:
                 pass
                 #print XML
