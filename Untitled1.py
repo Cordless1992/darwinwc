@@ -8,7 +8,6 @@ import MySQLdb
 #Naming needs to be changed for this file it is currently Untitled.py
 import xml.dom.minidom
 from xml.dom.minidom import parse, parseString
-
 class MyListener(object):
     def on_error(self, headers, message):
         print('received an error %s' % message)
@@ -41,21 +40,34 @@ class MyListener(object):
         try:
             for node3 in dom.getElementsByTagName('ns3:arr'):
                 d = node3.attributes["delayed"]
-                print "UID: ", y.value, " TIPLOC: ", o.value, " Source: ", x.value, " Status: Delayed"
+                #Store values of data in a, b and c variables
+                a = y.value
+                b = o.value
+                c = x.value
+                
+                print "UID: ", a, " TIPLOC: ", b, " Source: ", c, " Status: Delayed"
 
                 #Open DB connection (change as required)
-                db = MySQLdb.connect("localhost","username","password","DBName")
+                db = MySQLdb.connect("sql8.freesqldatabase.com","sql8116670","u47HNmCYr8","sql8116670")
                 cursor = db.cursor()
 
                 #Prepare information to be insered
-                sql = "INSERT INTO TABLENAME(UID, TPL, SOU)"
+                sql = "INSERT INTO TRAINS(UID, TPL, SOU) VALUES (%s,%s,%s)"
 
                 #Commit changes to database
                 try:
-                    cursor.execute(sql)
+                    #("select freq from matrix_brown where a_id in (?) and b_id in (?)", (b_item_id,b_after_id))
+                    #print "Starting Execute"
+                    cursor.execute(sql, (a,b,c))
+                    #print "Passed Execute"
                     db.commit()
-                except:
+                    #countera = countera  + 1
+                    print countera
+                    #print "Written to Database"
+                except Exception,e:
+                    print e
                     db.rollback()
+                    #print "Failed to Write to Database"
                 db.close()
 
         #skip if nothing found in ns3:arrived/delayed attribute        
