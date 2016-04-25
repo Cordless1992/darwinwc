@@ -1,0 +1,10 @@
+Test will start at 22:00 and will operate until at least 07:30
+This test includes Nationwide delayed services
+Database has been emptied at 21:58
+DarwinWC successfully started at 22:00
+Review at 23:00 capacity of database is at 30.4 percent and will be called off at 23.06
+
+recommendations
+from the tests it is clear that data will need to be removed periodically,
+I am currently going to test removing them each hour.
+
