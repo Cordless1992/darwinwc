@@ -1,4 +1,4 @@
-README - DarwinWC
+README - DarwinWC V0.1b
 
 "DarwinWC" is a work in progress which is aimed at finding train services which are not moving. The main purpose of "DarwinWC" is to be a backend data collecter, which can then be used for other purposes.
 
@@ -16,7 +16,7 @@ https://pypi.python.org/pypi/MySQL-python/1.2.5 - MySQLdb
 
 Added Files
 --------------
-Added requirement for MySQLdb
+Untitled2.py - The base elements of retrieving the oldest item in the database and checking it against a set amount of time then delete it if it is over the set time. Currently this only displays the difference in seconds and does nothing with the data
 
 Removed Files
 --------------
@@ -24,8 +24,8 @@ None
 
 Edited Files
 --------------
-Untitled1.py - Added SQL Database
+Untitled1.py - Added Time of message received
 
 Other Changes
 --------------
-Project status changed to 'B'
+Test completed for amount of data stored see test notes
