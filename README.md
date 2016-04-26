@@ -7,7 +7,7 @@ Quick Start -
 For Stable Releases -
 On Windows download .zip, extract and then just click 
 Run_(Stable).bat
-For BETA (Unstable) Releases -
+For NEW (Unstable) Releases -
 On Windows download .zip, extract and then just click 
 Run_BETA_Unstable).bat
 
@@ -22,7 +22,7 @@ https://pypi.python.org/pypi/MySQL-python/1.2.5 - MySQLdb
 Added Files
 --------------
 Untitled2.py - The base elements of retrieving the oldest item in the database and checking it against a set amount of time then delete it if it is over the set time. Currently this only displays the difference in seconds and does nothing with the data
-Testingcopy.py - This is a BETA version of the Untitled1.py - it has the ability to only show delayed UID once per incoming message rather than each location
+Testingcopy.py - This is a NEW version of the Untitled1.py - it has the ability to only show delayed UID once per incoming message rather than each location
 
 Removed Files
 --------------
