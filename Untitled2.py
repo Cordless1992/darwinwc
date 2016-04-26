@@ -1,4 +1,5 @@
 import MySQLdb
+import os
 from time import gmtime, strftime
 from datetime import datetime
 from datetime import timedelta
@@ -20,20 +21,23 @@ class MyListener(object):
                     cursor.execute(sql)
                     #print "Passed Execute"
                     results = cursor.fetchall()
+                    
                     #countera = countera  + 1
                     for row in results:
                         t = row[0]
                         x = row[4]
 
-                    t1 = datetime.strptime(t, "%H:%M:%S")
-                    t2 = strftime("%H:%M:%S", gmtime())
-                    t4 = datetime.strptime(t2, "%H:%M:%S")
+                    y = int(x)
+                    t1 = datetime.strptime(t, "%Y-%m-%d %H:%M:%S")
+                    t2 = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+                    t4 = datetime.strptime(t2, "%Y-%m-%d %H:%M:%S")
                     t3 = t4 - t1
                     print t3
                     print t3.total_seconds()
-                    if t3 > 2000:
-                        sql = "DELETE FROM TRAINS WHERE ID = '%s'"
-                        cursor.execute(sql, (x))
+                    if t3.total_seconds() > 3600:
+                        sql = "DELETE FROM TRAINS WHERE ID=%s"
+                        cursor.execute(sql, (y,))
+                        db.commit()
                         print "Entry Deleted"
                     else:
                         print "Not Enough Time"

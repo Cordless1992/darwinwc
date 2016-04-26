@@ -18,7 +18,8 @@ class MyListener(object):
         f.write(XML)
         f.close()
         dom = parse("test.xml")
-        a = "r"        
+        a = "r"
+        L = "0"
         #Example <uR updateOrigin="Darwin"><TS rid="201604221223687" ssd="2016-04-22" uid="W05044">
         
         for node1 in dom.getElementsByTagName('uR'):
@@ -50,7 +51,7 @@ class MyListener(object):
             a = y.value
             b = o.value
             c = x.value
-            t = strftime("%H:%M:%S", gmtime())
+            t = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         
         except KeyError:
             #print "Error"
