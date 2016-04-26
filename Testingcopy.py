@@ -51,7 +51,7 @@ class MyListener(object):
             b = o.value
             c = x.value
             t = strftime("%H:%M:%S", gmtime())
-            print "Received at: ", t, "UID: ", a, " TIPLOC: ", b, " Source: ", c, " Status: Delayed"
+        
         except KeyError:
             #print "Error"
             a = L
@@ -59,29 +59,31 @@ class MyListener(object):
         
         if a == L:
             #print "Already stored or not delayed"
+            pass
         else:
+            print "Received at: ", t, "UID: ", a, " TIPLOC: ", b, " Source: ", c, " Status: Delayed"
             #Open DB connection (change as required)
-                db = MySQLdb.connect("sql8.freesqldatabase.com","sql8116670","u47HNmCYr8","sql8116670")
-                cursor = db.cursor()
+            db = MySQLdb.connect("sql8.freesqldatabase.com","sql8116670","u47HNmCYr8","sql8116670")
+            cursor = db.cursor()
 
             #Prepare information to be insered
-                sql = "INSERT INTO TRAINS(TME, UID, TPL, SOU) VALUES (%s,%s,%s,%s)"
+            sql = "INSERT INTO TRAINS(TME, UID, TPL, SOU) VALUES (%s,%s,%s,%s)"
     
             #Commit changes to database
-                try:
+            try:
             #("select freq from matrix_brown where a_id in (?) and b_id in (?)", (b_item_id,b_after_id))
             #print "Starting Execute"
-                    cursor.execute(sql, (t,a,b,c))
+                cursor.execute(sql, (t,a,b,c))
             #print "Passed Execute"
-                    db.commit()
+                db.commit()
             #countera = countera  + 1
             #print countera
             #print "Written to Database"
-                except Exception,e:
-                    print e
-                    db.rollback()
+            except Exception,e:
+                print e
+                db.rollback()
             #print "Failed to Write to Database"
-                db.close()
+            db.close()
 
         #skip if nothing found in ns3:arrived/delayed attribute        
                          #print XML

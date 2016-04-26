@@ -23,18 +23,24 @@ class MyListener(object):
                     #countera = countera  + 1
                     for row in results:
                         t = row[0]
+                        x = row[4]
 
                     t1 = datetime.strptime(t, "%H:%M:%S")
                     t2 = strftime("%H:%M:%S", gmtime())
                     t4 = datetime.strptime(t2, "%H:%M:%S")
                     t3 = t4 - t1
                     print t3
-                    print t3.seconds
+                    print t3.total_seconds()
+                    if t3 > 2000:
+                        sql = "DELETE FROM TRAINS WHERE ID = '%s'"
+                        cursor.execute(sql, (x))
+                        print "Entry Deleted"
+                    else:
+                        print "Not Enough Time"
                     #print countera
                     #print "Written to Database"
                 except Exception,e:
                     print e
-                    db.rollback()
                     #print "Failed to Write to Database"
                 db.close()
                 pass
