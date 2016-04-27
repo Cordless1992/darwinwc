@@ -4,12 +4,15 @@ README - DarwinWC Alpha V0.5
 
 Quick Start -
 For Stable Releases -
+
 On Windows download .zip, extract and then just click 
 Run_(Stable).bat
 For NEW (Unstable) Releases -
+
 On Windows download .zip, extract and then just click 
 Run_BETA_Unstable).bat
 For the Database Management (Stable) Release -
+
 On Windows download .zip, extract and then just click 
 Run_(Database_Manager).bat
 
@@ -27,7 +30,7 @@ Update Notes for update from V0.3 to V0.5
 
 +2. The database management software will now delete records which are over an hour old (this can be changed).
 
-3. Further tests are now required to ensure that the database can manage itself over a 24 hour period. 
+ 3. Further tests are now required to ensure that the database can manage itself over a 24 hour period. 
 
 -4. Removed 'comments.py' as this file is no longer required and was only kept for reference.
 
