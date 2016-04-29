@@ -34,9 +34,10 @@ class MyListener(object):
 
             #print XML for testing purposes (if commented its off)
 
-        db = MySQLdb.connect("sql8.freesqldatabase.com","sql8116670","u47HNmCYr8","sql8116670")
+        db = MySQLdb.connect("localhost","root","","trains")
         cursor = db.cursor()
-        sql = "(SELECT * FROM TRAINS ORDER BY TME DESC LIMIT 1)"
+        sql = "(SELECT * FROM `delayed` ORDER BY `TME` DESC LIMIT 1)"
+        
         cursor.execute(sql)
         results = cursor.fetchall()
         for row in results:
@@ -64,12 +65,12 @@ class MyListener(object):
         else:
             print "Received at: ", t, "UID: ", a, " TIPLOC: ", b, " Source: ", c, " Status: Delayed"
             #Open DB connection (change as required)
-            db = MySQLdb.connect("sql8.freesqldatabase.com","sql8116670","u47HNmCYr8","sql8116670")
+            db = MySQLdb.connect("localhost","root","","trains")
             cursor = db.cursor()
 
             #Prepare information to be insered
-            sql = "INSERT INTO TRAINS(TME, UID, TPL, SOU) VALUES (%s,%s,%s,%s)"
-    
+            sql = "INSERT INTO `delayed`(`TME`, `UID`, `TPL`, `SOU`) VALUES (%s,%s,%s,%s)"
+
             #Commit changes to database
             try:
             #("select freq from matrix_brown where a_id in (?) and b_id in (?)", (b_item_id,b_after_id))

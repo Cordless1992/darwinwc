@@ -1,2 +1,2 @@
-Testingcopy.py
+Einstein.py
 pause

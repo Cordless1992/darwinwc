@@ -1,16 +1,19 @@
-README - DarwinWC Alpha V0.5
+README - Osmium (Os) Alpha V0.6
+--------------
+Osmium is a work in progress which is aimed at finding train services which are not moving. The main purpose of Os is to be a backend data collecter, which can then be used for other purposes.
 
-"DarwinWC" is a work in progress which is aimed at finding train services which are not moving. The main purpose of "DarwinWC" is to be a backend data collecter, which can then be used for other purposes.
-
-Quick Start -
+Quick Start
+--------------
 For Stable Releases -
 
-On Windows download .zip, extract and then just click 
+On Windows, download .zip, extract and then just click 
 Run_(Stable).bat
+
 For NEW (Unstable) Releases -
 
 On Windows download .zip, extract and then just click 
 Run_BETA_Unstable).bat
+
 For the Database Management (Stable) Release -
 
 On Windows download .zip, extract and then just click 
@@ -18,28 +21,24 @@ Run_(Database_Manager).bat
 
 Current Status - Alpha
 
-1. Only show 1 UID per message
-2. Only show location where train is set to delayed
-
 Pre-install Requirements
+https://www.python.org/downloads/windows/ - Python 2.7.11
 https://pypi.python.org/pypi/MySQL-python/1.2.5 - MySQLdb
 
-Update Notes for update from V0.3 to V0.5
+
+Update Notes for update from V0.5 to V0.6
 --------------
-+1. Changed the format of the time stored to include the date, this will allow for the database management part of the program to work more effceintly with the data stream software.
+1. The MySQL database has been moved
 
-+2. The database management software will now delete records which are over an hour old (this can be changed).
+2. Several .py files have been renamed, this is purely because this is what they will be called when the software is released.
 
- 3. Further tests are now required to ensure that the database can manage itself over a 24 hour period. 
+3. Some changes to the SQL Syntax within the .py files as errors have occured when the changeover from one database to another happened.
 
--4. Removed 'comments.py' as this file is no longer required and was only kept for reference.
+4. The project is now officially named Osmium or Os for short.
 
--5. Removed 'start.py' as this file is no longer required.
-
--6. Removed 'setup.py' I am not sure if this is required but will remove from V0.5 and will reintroduce in V0.6 if needed.
-
-Planned for V0.6 onwards
+Planned for V0.7 onwards
 --------------
 1. Alter code to retrieve database connection details (hostname, login, password, database name) from a text file so it can easily be changed.
 
 2. Security system - This will be designed to control the usage of the software and is not intended to be implemented until the BETA/Release stage of the project development.
+
