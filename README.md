@@ -22,7 +22,7 @@ Run_(Database_Manager).bat
 Current Status - Alpha
 
 Pre-install Requirements
-
+--------------
 https://www.python.org/downloads/windows/ - Python 2.7.11
 
 https://pypi.python.org/pypi/MySQL-python/1.2.5 - MySQLdb
