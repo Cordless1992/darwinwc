@@ -1,4 +1,4 @@
-README - Osmium (Os) Alpha V0.6
+README - Osmium (Os) Alpha V0.7
 --------------
 Osmium is a work in progress which is aimed at finding train services which are not moving. The main purpose of Os is to be a backend data collecter, which can then be used for other purposes.
 
@@ -28,17 +28,11 @@ https://www.python.org/downloads/windows/ - Python 2.7.11
 https://pypi.python.org/pypi/MySQL-python/1.2.5 - MySQLdb
 
 
-Update Notes for update from V0.5 to V0.6
+Update Notes for update from V0.6 to V0.7
 --------------
-1. The MySQL database has been moved
+1. Oveer %50 of the coding has been rewritten
 
-2. Several .py files have been renamed, this is purely because this is what they will be called when the software is released.
-
-3. Some changes to the SQL Syntax within the .py files as errors have occured when the changeover from one database to another happened.
-
-4. The project is now officially named Osmium or Os for short.
-
-Planned for V0.7 onwards
+Planned for V0.8 onwards
 --------------
 1. Alter code to retrieve database connection details (hostname, login, password, database name) from a text file so it can easily be changed.
 

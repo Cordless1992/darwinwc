@@ -1,5 +1,5 @@
 import zlib, stomp #, xmltodict
-import MySQLdb
+import pymssql
 from time import gmtime, strftime
 #from bs4 import BeautifulSoup
 #import lxml
@@ -45,11 +45,11 @@ class MyListener(object):
                 a = y.value
                 b = o.value
                 c = x.value
-                t = strftime("%H:%M:%S", gmtime())
+                t = strftime("%Y-%m-%d %H:%M:%S", gmtime())
                 print "Received at: ", t, "UID: ", a, " TIPLOC: ", b, " Source: ", c, " Status: Delayed"
 
                 #Open DB connection (change as required)
-                db = MySQLdb.connect("localhost","root","","trains")
+                db = pymssql.connect(server='DESKTOP-3G1FB9B\SQLEXPRESS', user='sa', password='9964', database='Osmium')
                 cursor = db.cursor()
 
                 #Prepare information to be insered
@@ -59,7 +59,10 @@ class MyListener(object):
                 try:
                     #("select freq from matrix_brown where a_id in (?) and b_id in (?)", (b_item_id,b_after_id))
                     #print "Starting Execute"
-                    cursor.execute(sql, (t,a,b,c))
+                    #cursor.execute(sql, (t,a,b,c))
+                    cursor.executemany(
+                        "INSERT INTO delayed VALUES (%s, %s, %s, %s)",
+                        [(t, a, b, c)])
                     #print "Passed Execute"
                     db.commit()
                     #countera = countera  + 1

@@ -1,6 +1,6 @@
 #WARNING - This is an unstable testing copy and should only be used by testers
 import zlib, stomp
-import MySQLdb
+import pymssql
 from time import gmtime, strftime
 import xml.dom.minidom
 from xml.dom.minidom import parse, parseString
@@ -34,9 +34,9 @@ class MyListener(object):
 
             #print XML for testing purposes (if commented its off)
 
-        db = MySQLdb.connect("localhost","root","","trains")
+        db = pymssql.connect(server='localhost', user='sa', password='9964', database='Osmium')
         cursor = db.cursor()
-        sql = "(SELECT * FROM `delayed` ORDER BY `TME` DESC LIMIT 1)"
+        sql = "SELECT TOP 1 * FROM [delayed] Order by [ID] DESC"
         
         cursor.execute(sql)
         results = cursor.fetchall()
@@ -65,7 +65,7 @@ class MyListener(object):
         else:
             print "Received at: ", t, "UID: ", a, " TIPLOC: ", b, " Source: ", c, " Status: Delayed"
             #Open DB connection (change as required)
-            db = MySQLdb.connect("localhost","root","","trains")
+            db = pymssql.connect(server='localhost', user='sa', password='9964', database='Osmium')
             cursor = db.cursor()
 
             #Prepare information to be insered
@@ -75,7 +75,10 @@ class MyListener(object):
             try:
             #("select freq from matrix_brown where a_id in (?) and b_id in (?)", (b_item_id,b_after_id))
             #print "Starting Execute"
-                cursor.execute(sql, (t,a,b,c))
+                #cursor.execute(sql, (t,a,b,c))
+                cursor.executemany(
+                        "INSERT INTO delayed VALUES (%s, %s, %s, %s)",
+                        [(t, a, b, c)])
             #print "Passed Execute"
                 db.commit()
             #countera = countera  + 1
