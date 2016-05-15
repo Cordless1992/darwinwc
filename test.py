@@ -1,4 +1,3 @@
-#WARNING - This is an unstable testing copy and should only be used by testers
 import zlib, stomp
 import pymssql
 from time import gmtime, strftime
@@ -12,104 +11,85 @@ class MyListener(object):
 
 		decompressed_data=zlib.decompress(message, 16+zlib.MAX_WBITS)
 
-		#print('received a message %s' % decompressed_data)
 		XML = decompressed_data
 		f = open("test.xml","wb")
 		f.write(XML)
 		f.close()
 		dom = parse("test.xml")
-		#print "written to file"
 		a = "r"
 		L = "0"
-		#Example <uR updateOrigin="Darwin"><TS rid="201604221223687" ssd="2016-04-22" uid="W05044">
-		
+				
 		for node1 in dom.getElementsByTagName('uR'):
 			x = node1.attributes["updateOrigin"]      #Information Source
-			
+			c = x.value
 		for node2 in dom.getElementsByTagName('TS'):
 			y = node2.attributes["uid"]               #UID
 			a = y.value
 		for node in dom.getElementsByTagName('ns3:Location'):
 			o = node.attributes["tpl"]               #TIPLOC Information
-			#print y.value, o.value, x.value
-
-			#print XML for testing purposes (if commented its off)
-		#print "TEST"
+			b = o.value
 		db = pymssql.connect(server='DESKTOP-3G1FB9B\SQLEXPRESS', user='sa', password='9964', database='Osmium')
 		cursor = db.cursor()
-		try:
-                        sql = "SELECT TOP 1 * FROM [delayed] Order by [ID] DESC"
-                        #print "Conneceted to database and etc"
-                        cursor.execute(sql)
-                        results = cursor.fetchall()
-                        for row in results:
-                                L = row[1]
-                except:
-                        pass
 
-                db.close()
-		#print y.value
-		#print L
-		print "value inputted to L"
-		try:
-			for node3 in dom.getElementsByTagName('ns3:arr'):
-				d = node3.attributes["delayed"]
-				#Store values of data in a, b and c variables
-			
-			b = o.value
-			c = x.value
-			t = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-			#print "Stored delayed services to variables"
+		if b == "TD":
+                        print "Last report from TD, feature currnetly switched off"
+
+                elif b == "CIS":
+                        print "Last report from CIS, feature currnetly switched off"
+                        
+                else:
+                        try:
+                                sql = "SELECT TOP 1 * FROM [delayed] Order by [ID] DESC"
+                                cursor.execute(sql)
+                                results = cursor.fetchall()
+                                for row in results:
+                                        L = row[1]
+                        except:
+                                pass
+
+                        db.close()
+
+                        try:
+                                for node3 in dom.getElementsByTagName('ns3:arr'):
+                                        d = node3.attributes["delayed"]
+
+                                t = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 		
-		except KeyError:
-			#Check for change in movement
+                        except KeyError:
+                                print "Train is not delayed"
 								
-			a = L
-			pass
+                                a = L
+                                pass
 
-		if a == L:
-			try:
+                        if a == L:
+                                try:
+                                        db = pymssql.connect(server='DESKTOP-3G1FB9B\SQLEXPRESS', user='sa', password='9964', database='Osmium')
+                                        cursor = db.cursor()
+                                        sql = "DELETE FROM delayed WHERE UID=%s"
+                                        cursor.execute(sql, (a))
+                                        print "Train", y.value, "has been deleted from the database"
+                                except Exception,e:
+                                        print e
+                                        print "Train not in database"
+                                pass
+                        else:
+                                print "Received at: ", t, "UID: ", a, " TIPLOC: ", b, " Source: ", c, " Status: Delayed"
                                 db = pymssql.connect(server='DESKTOP-3G1FB9B\SQLEXPRESS', user='sa', password='9964', database='Osmium')
                                 cursor = db.cursor()
-				sql = "DELETE FROM delayed WHERE UID=%s"
-				cursor.execute(sql, (a))
-				print "Train", y.value, "from database"
-			except Exception,e:
-                                print e
-				print "Train not in database"
-			
-			#print "Already stored or not delayed"
-			pass
-		else:
-			print "Received at: ", t, "UID: ", a, " TIPLOC: ", b, " Source: ", c, " Status: Delayed"
-			#Open DB connection (change as required)
-			db = pymssql.connect(server='DESKTOP-3G1FB9B\SQLEXPRESS', user='sa', password='9964', database='Osmium')
-                        cursor = db.cursor()
 
-			#Prepare information to be insered
-			sql = "INSERT INTO `delayed`(`TME`, `UID`, `TPL`, `SOU`) VALUES (%s,%s,%s,%s)"
+                                sql = "INSERT INTO `delayed`(`TME`, `UID`, `TPL`, `SOU`) VALUES (%s,%s,%s,%s)"
 
-			#Commit changes to database
-			try:
-			#("select freq from matrix_brown where a_id in (?) and b_id in (?)", (b_item_id,b_after_id))
-			#print "Starting Execute"
-				#cursor.execute(sql, (t,a,b,c))
-				cursor.executemany(
-                                        "INSERT INTO delayed VALUES (%s, %s, %s, %s)",
-                                        [(t, a, b, c)])
-			#print "Passed Execute"
-				db.commit()
-			#countera = countera  + 1
-			#print countera
-			#print "Written to Database"
-			except Exception,e:
-				print e
-				db.rollback()
-			#print "Failed to Write to Database"
-			db.close()
+                                try:
+                                        cursor.executemany(
+                                                "INSERT INTO delayed VALUES (%s, %s, %s, %s)",
+                                                [(t, a, b, c)])
 
-		#skip if nothing found in ns3:arrived/delayed attribute        
-						 #print XML
+                                        db.commit()
+                                except Exception,e:
+                                        print e
+                                        db.rollback()
+                                db.close()
+
 
 conn = stomp.Connection([("datafeeds.nationalrail.co.uk", 61613)])
 
